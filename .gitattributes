@@ -1,0 +1,38 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Shell scripts should use LF
+*.sh text eol=lf
+
+# Python files
+*.py text eol=lf
+
+# YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# Docker files
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Configuration files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Documentation and text
+*.txt text eol=lf
+LICENSE text eol=lf
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
