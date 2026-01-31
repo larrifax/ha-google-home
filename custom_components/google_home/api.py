@@ -15,6 +15,15 @@ from .const import GOOGLE_HOME_API_BASE_URL, GOOGLE_OAUTH_TOKEN_URI
 logger = logging.getLogger(__name__)
 
 
+class DeviceState(BaseModel):
+    """Represents device state."""
+
+    online: bool = Field(default=True, description="Device online status")
+    attributes: dict[str, Any] = Field(
+        default_factory=dict, description="Device state attributes"
+    )
+
+
 class Device(BaseModel):
     """Represents a Google Home device."""
 
@@ -27,15 +36,7 @@ class Device(BaseModel):
     model: str | None = Field(None, description="Device model")
     hw_version: str | None = Field(None, description="Hardware version")
     sw_version: str | None = Field(None, description="Software version")
-
-
-class DeviceState(BaseModel):
-    """Represents device state."""
-
-    online: bool = Field(default=True, description="Device online status")
-    attributes: dict[str, Any] = Field(
-        default_factory=dict, description="Device state attributes"
-    )
+    state: DeviceState | None = Field(None, description="Current device state")
 
 
 class GoogleHomeAPI:
@@ -97,7 +98,7 @@ class GoogleHomeAPI:
             self._credentials.refresh(request)
             logger.debug("Access token refreshed successfully")
         except Exception as e:
-            logger.error(f"Failed to refresh access token: {e}")
+            logger.error("Failed to refresh access token: %s", e)
             raise
 
     async def _make_request(
@@ -139,7 +140,7 @@ class GoogleHomeAPI:
                 response.raise_for_status()
                 return await response.json()
         except aiohttp.ClientError as e:
-            logger.error(f"Request failed: {method} {url}: {e}")
+            logger.error("Request failed: %s %s: %s", method, url, e)
             raise
 
     async def discover_devices(self) -> list[Device]:
@@ -182,14 +183,14 @@ class GoogleHomeAPI:
                     )
                     devices.append(device)
                 except Exception as e:
-                    logger.warning(f"Failed to parse device: {e}")
+                    logger.warning("Failed to parse device: %s", e)
                     continue
 
-            logger.info(f"Discovered {len(devices)} device(s)")
+            logger.info("Discovered %d device(s)", len(devices))
             return devices
 
         except Exception as e:
-            logger.error(f"Failed to discover devices: {e}")
+            logger.error("Failed to discover devices: %s", e)
             raise
 
     async def query_device_state(self, device_id: str) -> DeviceState:
@@ -226,7 +227,7 @@ class GoogleHomeAPI:
             )
 
         except Exception as e:
-            logger.error(f"Failed to query device state for {device_id}: {e}")
+            logger.error("Failed to query device state for %s: %s", device_id, e)
             raise
 
     async def execute_command(
@@ -277,12 +278,12 @@ class GoogleHomeAPI:
                 success = status == "SUCCESS"
 
                 if not success:
-                    logger.warning(f"Command failed for {device_id}: {status}")
+                    logger.warning("Command failed for %s: %s", device_id, status)
 
                 return success
 
             return False
 
         except Exception as e:
-            logger.error(f"Failed to execute command for {device_id}: {e}")
+            logger.error("Failed to execute command for %s: %s", device_id, e)
             return False

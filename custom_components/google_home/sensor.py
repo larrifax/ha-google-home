@@ -75,6 +75,20 @@ class GoogleHomeDataUpdateCoordinator(DataUpdateCoordinator[list[Device]]):
         try:
             devices = await self.api.discover_devices()
             _LOGGER.debug("Discovered %d devices", len(devices))
+
+            # Query state for all devices
+            for device in devices:
+                try:
+                    state = await self.api.query_device_state(device.device_id)
+                    # Store state in device for later use
+                    device.state = state
+                except Exception as err:
+                    _LOGGER.warning(
+                        "Failed to query state for device %s: %s",
+                        device.device_id,
+                        err,
+                    )
+
             return devices
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}") from err
@@ -97,7 +111,6 @@ class GoogleHomeDeviceSensor(
         self._entry = entry
         self._attr_unique_id = f"{DOMAIN}_{device.device_id}"
         self._attr_name = device.name
-        self._attr_native_value = "online"
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -126,24 +139,15 @@ class GoogleHomeDeviceSensor(
             ATTR_TRAITS: self._device.traits,
         }
 
-    async def async_update(self) -> None:
-        """Update the sensor state."""
+    @property
+    def native_value(self) -> str:
+        """Return the state of the sensor."""
         # Find updated device data from coordinator
         for device in self.coordinator.data:
             if device.device_id == self._device.device_id:
                 self._device = device
+                # Check if device has state attribute (set in coordinator)
+                if hasattr(device, "state"):
+                    return "online" if device.state.online else "offline"
                 break
-
-        try:
-            # Query device state
-            state = await self.coordinator.api.query_device_state(
-                self._device.device_id
-            )
-            self._attr_native_value = "online" if state.online else "offline"
-        except Exception as e:
-            _LOGGER.warning(
-                "Failed to query state for device %s: %s",
-                self._device.device_id,
-                e,
-            )
-            self._attr_native_value = "unknown"
+        return "unknown"
