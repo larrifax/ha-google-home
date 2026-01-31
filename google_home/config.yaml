@@ -1,0 +1,36 @@
+name: "Google Home API"
+version: "1.0.0"
+slug: "google_home_api"
+description: "Integrate and control devices exposed via the Google Home API"
+url: "https://github.com/larrifax/ha-google-home"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: application
+boot: auto
+hassio_api: true
+homeassistant_api: true
+auth_api: true
+ingress: true
+panel_icon: mdi:google-home
+map:
+  - config:rw
+  - ssl
+options:
+  project_id: ""
+  client_id: ""
+  client_secret: ""
+  refresh_token: ""
+  log_level: "info"
+  scan_interval: 30
+schema:
+  project_id: str
+  client_id: str
+  client_secret: str
+  refresh_token: str
+  log_level: list(debug|info|warning|error)?
+  scan_interval: int(10,300)?
+image: "ghcr.io/larrifax/ha-google-home-{arch}"
