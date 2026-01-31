@@ -95,7 +95,7 @@ class GoogleHomeAPI:
         try:
             # Run blocking refresh call in executor to avoid blocking the event loop
             request = Request()
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             await loop.run_in_executor(None, self._credentials.refresh, request)
             logger.debug("Access token refreshed successfully")
         except Exception as e:
