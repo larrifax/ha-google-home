@@ -7,7 +7,7 @@ from typing import Any
 
 import aiohttp
 from google.auth.transport._aiohttp_requests import Request as AsyncRequest
-from google.oauth2.credentials import Credentials
+from google.oauth2._credentials_async import Credentials
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
