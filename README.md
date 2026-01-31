@@ -1,14 +1,15 @@
-# Google Home API Add-on for Home Assistant
+# Google Home API Custom Integration for Home Assistant
 
-[![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-blue.svg)](https://www.home-assistant.io/)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Integration-blue.svg)](https://www.home-assistant.io/)
+[![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Quality Scale](https://img.shields.io/badge/quality-platinum-purple.svg)](PLATINUM_REQUIREMENTS.md)
 
-A Home Assistant add-on that integrates with the Google Home API to discover and control smart home devices accessible through Google Home.
+A Home Assistant custom integration that integrates with the Google Home API to discover and control smart home devices accessible through Google Home.
 
 ## About
 
-This add-on enables Home Assistant to communicate with devices exposed via the Google Home API. It provides:
+This integration enables Home Assistant to communicate with devices exposed via the Google Home API. It provides:
 
 - **Automatic device discovery** from your Google Home ecosystem
 - **Real-time state monitoring** of all connected devices
@@ -23,16 +24,36 @@ Get started in 5 minutes! See the [Quick Start Guide](QUICKSTART.md).
 
 ## Installation
 
-1. Navigate to the Home Assistant Add-on Store
-2. Add this repository URL: `https://github.com/larrifax/ha-google-home`
-3. Find "Google Home API" in the add-on list
-4. Click "Install"
-5. Configure the add-on (see Configuration section)
-6. Start the add-on
+### HACS (Recommended)
+
+1. Open HACS in your Home Assistant instance
+2. Click on "Integrations"
+3. Click the three dots in the top right corner
+4. Select "Custom repositories"
+5. Add this repository URL: `https://github.com/larrifax/ha-google-home`
+6. Select "Integration" as the category
+7. Click "Add"
+8. Find "Google Home API" in the integration list
+9. Click "Download"
+10. Restart Home Assistant
+11. Go to Settings → Devices & Services
+12. Click "+ Add Integration"
+13. Search for "Google Home API"
+14. Follow the configuration steps
+
+### Manual Installation
+
+1. Download the latest release from the [releases page](https://github.com/larrifax/ha-google-home/releases)
+2. Extract the `custom_components/google_home` folder to your Home Assistant `custom_components` directory
+3. Restart Home Assistant
+4. Go to Settings → Devices & Services
+5. Click "+ Add Integration"
+6. Search for "Google Home API"
+7. Follow the configuration steps
 
 ## Configuration
 
-Before using this add-on, you need to set up Google Cloud credentials:
+Before using this integration, you need to set up Google Cloud credentials:
 
 1. Create a Google Cloud project
 2. Enable the Home Graph API
@@ -41,21 +62,20 @@ Before using this add-on, you need to set up Google Cloud credentials:
 
 See the [complete documentation](google_home/DOCS.md) for detailed setup instructions.
 
-### Required Configuration
+### Setup via Home Assistant UI
 
-```yaml
-project_id: "your-project-id"
-client_id: "your-client-id.apps.googleusercontent.com"
-client_secret: "your-client-secret"
-refresh_token: "your-refresh-token"
-```
+After installation, configure the integration through the Home Assistant UI:
 
-### Optional Configuration
+1. Go to Settings → Devices & Services
+2. Click "+ Add Integration"
+3. Search for "Google Home API"
+4. Enter your credentials:
+   - **Google Cloud Project ID**: Your Google Cloud Project ID
+   - **OAuth2 Client ID**: Your OAuth2 Client ID from Google Cloud
+   - **OAuth2 Client Secret**: Your OAuth2 Client Secret from Google Cloud
+   - **OAuth2 Refresh Token**: Your OAuth2 Refresh Token
 
-```yaml
-log_level: "info"  # debug, info, warning, or error
-scan_interval: 30  # seconds between updates (10-300)
-```
+The integration will automatically discover your Google Home devices and create entities for them.
 
 ## Features
 
@@ -64,22 +84,22 @@ scan_interval: 30  # seconds between updates (10-300)
 - ✅ OAuth2 authentication
 - ✅ Automatic token refresh
 - ✅ Error handling and recovery
-- ✅ Multi-architecture support
-- ✅ Configurable logging
-- ✅ AppArmor security profile
-- ✅ Health monitoring
+- ✅ UI-based configuration through Home Assistant
+- ✅ Automatic entity creation for discovered devices
+- ✅ HACS compatibility
 - ✅ Comprehensive documentation
 
 ## Quality Scale
 
-This add-on aims to achieve the **Platinum** level on the Home Assistant Quality Scale by following best practices:
+This integration aims to achieve the **Platinum** level on the Home Assistant Quality Scale by following best practices:
 
 - **Strict typing** with Pydantic models
 - **Comprehensive error handling** and automatic recovery
 - **Full documentation** with setup guides and troubleshooting
-- **Security** with AppArmor profiles and secure credential handling
-- **Performance** with configurable polling and efficient API usage
+- **Security** with secure credential handling
+- **Performance** with efficient API usage and update coordination
 - **Maintainability** with clean code and type checking
+- **HACS compatibility** for easy installation and updates
 
 See [Platinum Requirements](PLATINUM_REQUIREMENTS.md) for detailed compliance information.
 

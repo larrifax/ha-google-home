@@ -1,0 +1,32 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Google Home API Setup",
+        "description": "Configure your Google Home API integration",
+        "data": {
+          "project_id": "Google Cloud Project ID",
+          "client_id": "OAuth2 Client ID",
+          "client_secret": "OAuth2 Client Secret",
+          "refresh_token": "OAuth2 Refresh Token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Google Home API. Please check your credentials.",
+      "invalid_auth": "Invalid authentication. Please check your OAuth2 credentials.",
+      "unknown": "Unexpected error occurred. Please check the logs for more details."
+    },
+    "abort": {
+      "already_configured": "This Google Home API account is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Google Home API Options",
+        "description": "Configure options for Google Home API integration"
+      }
+    }
+  }
+}
