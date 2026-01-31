@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any
 
@@ -92,9 +93,10 @@ class GoogleHomeAPI:
     async def _refresh_token(self) -> None:
         """Refresh the OAuth2 access token."""
         try:
-            # Use synchronous refresh for google-auth library
+            # Run blocking refresh call in executor to avoid blocking the event loop
             request = Request()
-            self._credentials.refresh(request)
+            loop = asyncio.get_running_loop()
+            await loop.run_in_executor(None, self._credentials.refresh, request)
             logger.debug("Access token refreshed successfully")
         except Exception as e:
             logger.error(f"Failed to refresh access token: {e}")
