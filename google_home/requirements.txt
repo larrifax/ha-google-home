@@ -1,0 +1,13 @@
+# Python dependencies for Google Home API Add-on
+# These are installed in the Dockerfile
+
+# Google API authentication and client libraries
+google-auth==2.28.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+
+# HTTP client (updated to fix security vulnerabilities)
+aiohttp==3.13.3
+
+# Data validation and type checking
+pydantic==2.6.1

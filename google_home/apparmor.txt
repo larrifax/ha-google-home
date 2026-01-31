@@ -1,0 +1,40 @@
+#include <tunables/global>
+
+profile google_home_api flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # Capabilities
+  capability net_raw,
+  capability net_bind_service,
+  
+  # Python requirements
+  /usr/bin/python3 rix,
+  /usr/lib/python3*/** r,
+  
+  # Application files
+  /app/** r,
+  /run.sh rix,
+  
+  # Data directory
+  /data/** rw,
+  
+  # Configuration
+  /etc/hosts r,
+  /etc/resolv.conf r,
+  /etc/services r,
+  /etc/ssl/openssl.cnf r,
+  /etc/ssl/certs/** r,
+  
+  # DNS and network
+  network inet dgram,
+  network inet stream,
+  network inet6 dgram,
+  network inet6 stream,
+  
+  # Proc and sys
+  /proc/sys/kernel/random/uuid r,
+  
+  # Temp files
+  /tmp/** rw,
+  /run/** rw,
+}

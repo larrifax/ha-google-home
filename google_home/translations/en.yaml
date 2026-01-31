@@ -1,0 +1,33 @@
+configuration:
+  project_id:
+    name: Google Cloud Project ID
+    description: >-
+      Your Google Cloud Project ID associated with your Google Home integration.
+      This can be found in the Google Cloud Console.
+  client_id:
+    name: OAuth2 Client ID
+    description: >-
+      The OAuth2 Client ID from your Google Cloud project credentials.
+      Required for authenticating with the Google Home API.
+  client_secret:
+    name: OAuth2 Client Secret
+    description: >-
+      The OAuth2 Client Secret from your Google Cloud project credentials.
+      Keep this value secure and do not share it publicly.
+  refresh_token:
+    name: OAuth2 Refresh Token
+    description: >-
+      The OAuth2 Refresh Token obtained during the authentication flow.
+      This is used to maintain access to the Google Home API.
+  log_level:
+    name: Log Level
+    description: >-
+      Set the logging verbosity. Use 'debug' for troubleshooting,
+      'info' for normal operation, 'warning' for important messages only,
+      or 'error' for errors only.
+  scan_interval:
+    name: Scan Interval (seconds)
+    description: >-
+      How often to poll the Google Home API for device updates.
+      Lower values provide faster updates but increase API usage.
+      Recommended: 30-60 seconds.
