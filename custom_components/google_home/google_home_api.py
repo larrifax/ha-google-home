@@ -6,7 +6,7 @@ import logging
 from typing import Any
 
 import aiohttp
-from google.auth.transport.requests import Request
+from google.auth.transport._aiohttp_requests import Request as AsyncRequest
 from google.oauth2.credentials import Credentials
 from pydantic import BaseModel, Field
 
@@ -92,9 +92,9 @@ class GoogleHomeAPI:
     async def _refresh_token(self) -> None:
         """Refresh the OAuth2 access token."""
         try:
-            # Use synchronous refresh for google-auth library
-            request = Request()
-            self._credentials.refresh(request)
+            # Use async refresh to avoid blocking the event loop
+            request = AsyncRequest(session=self._session)
+            await self._credentials.refresh(request)
             logger.debug("Access token refreshed successfully")
         except Exception as e:
             logger.error(f"Failed to refresh access token: {e}")
