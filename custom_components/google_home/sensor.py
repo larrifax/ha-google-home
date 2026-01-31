@@ -1,4 +1,5 @@
 """Sensor platform for Google Home API integration."""
+
 from __future__ import annotations
 
 import logging
@@ -62,13 +63,13 @@ class GoogleHomeDeviceSensor(CoordinatorEntity, SensorEntity):
             "name": self._device.name,
             "model": self._device.model or "Unknown",
         }
-        
+
         if self._device.manufacturer:
             info["manufacturer"] = self._device.manufacturer
-        
+
         if self._device.sw_version:
             info["sw_version"] = self._device.sw_version
-        
+
         if self._device.hw_version:
             info["hw_version"] = self._device.hw_version
 
@@ -80,11 +81,11 @@ class GoogleHomeDeviceSensor(CoordinatorEntity, SensorEntity):
         device_data = self.coordinator.data.get(self._device_id)
         if not device_data:
             return None
-        
+
         state = device_data.get("state")
         if state is None:
             return "unavailable"
-        
+
         return "online" if state.online else "offline"
 
     @property
@@ -93,35 +94,35 @@ class GoogleHomeDeviceSensor(CoordinatorEntity, SensorEntity):
         device_data = self.coordinator.data.get(self._device_id)
         if not device_data:
             return {}
-        
+
         device = device_data["device"]
         state = device_data.get("state")
-        
+
         attributes = {
             ATTR_DEVICE_ID: self._device_id,
             ATTR_DEVICE_TYPE: device.device_type,
             ATTR_TRAITS: device.traits,
         }
-        
+
         if device.room:
             attributes[ATTR_ROOM] = device.room
-        
+
         if device.manufacturer:
             attributes[ATTR_MANUFACTURER] = device.manufacturer
-        
+
         if device.model:
             attributes[ATTR_MODEL] = device.model
-        
+
         if device.hw_version:
             attributes[ATTR_HW_VERSION] = device.hw_version
-        
+
         if device.sw_version:
             attributes[ATTR_SW_VERSION] = device.sw_version
-        
+
         # Add state attributes if available
         if state and state.attributes:
             attributes.update(state.attributes)
-        
+
         return attributes
 
     @property
@@ -129,6 +130,6 @@ class GoogleHomeDeviceSensor(CoordinatorEntity, SensorEntity):
         """Return True if entity is available."""
         if not self.coordinator.last_update_success:
             return False
-        
+
         device_data = self.coordinator.data.get(self._device_id)
         return device_data is not None

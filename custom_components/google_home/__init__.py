@@ -1,4 +1,5 @@
 """The Google Home API integration."""
+
 from __future__ import annotations
 
 import logging
@@ -54,7 +55,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Fetch data from Google Home API."""
         try:
             devices = await api.discover_devices()
-            
+
             # Query state for each device
             device_states = {}
             for device in devices:
@@ -75,7 +76,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                         "device": device,
                         "state": None,
                     }
-            
+
             return device_states
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}") from err
