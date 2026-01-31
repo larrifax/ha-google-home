@@ -1,6 +1,8 @@
 # Quick Start Guide
 
-Get up and running with the Google Home API add-on in 5 minutes!
+Get up and running with the Google Home API integration in 5 minutes!
+
+This guide covers both installation methods: **HACS Custom Integration (Recommended)** and **Home Assistant Add-on**.
 
 ## Prerequisites
 
@@ -8,7 +10,26 @@ Get up and running with the Google Home API add-on in 5 minutes!
 - Google Cloud Platform account
 - Google Home devices set up
 
-## Quick Setup (5 Steps)
+## Installation Method
+
+Choose your preferred installation method:
+
+### Option A: HACS Integration (Recommended)
+✅ Works with any Home Assistant installation  
+✅ Easy UI-based configuration  
+✅ Automatic updates through HACS  
+
+[Jump to HACS Quick Setup](#hacs-quick-setup)
+
+### Option B: Home Assistant Add-on
+⚠️ Only for Home Assistant OS/Supervised  
+⚠️ Requires YAML configuration  
+
+[Jump to Add-on Quick Setup](#add-on-quick-setup)
+
+---
+
+## Google Cloud Setup (Required for Both Methods)
 
 ### 1. Create Google Cloud Project
 
@@ -54,24 +75,69 @@ credentials = flow.run_local_server(port=8080)
 print(f"Refresh token: {credentials.refresh_token}")
 ```
 
-### 5. Configure Add-on
+---
 
-In Home Assistant:
+## HACS Quick Setup
 
-1. Add this repository: `https://github.com/larrifax/ha-google-home`
-2. Install "Google Home API" add-on
-3. Configure with your credentials:
-   ```yaml
-   project_id: "your-project-id"
-   client_id: "your-client-id.apps.googleusercontent.com"
-   client_secret: "your-client-secret"
-   refresh_token: "your-refresh-token"
-   log_level: "info"
-   scan_interval: 30
-   ```
-4. Start the add-on
+### 5A. Install via HACS
 
-## Verify Installation
+1. Ensure [HACS](https://hacs.xyz/) is installed
+2. Go to **HACS** → **Integrations**
+3. Click the three dots (⋮) → **Custom repositories**
+4. Add: `https://github.com/larrifax/ha-google-home`
+5. Category: **Integration**
+6. Click **Add**, then find "Google Home API"
+7. Click **Download**
+8. **Restart Home Assistant**
+
+### 6A. Configure Integration
+
+1. Go to **Settings** → **Devices & Services**
+2. Click **+ Add Integration**
+3. Search for "Google Home API"
+4. Enter your credentials in the dialog:
+   - Google Cloud Project ID
+   - OAuth2 Client ID
+   - OAuth2 Client Secret
+   - OAuth2 Refresh Token
+5. Click **Submit**
+
+### 7A. Verify Installation
+
+Check **Settings** → **Devices & Services** → **Google Home API**:
+- You should see discovered devices
+- Sensor entities should be created for each device
+
+---
+
+## Add-on Quick Setup
+
+### 5B. Install Add-on
+
+1. Go to **Settings** → **Add-ons**
+2. Click **Add-on Store** → **⋮** → **Repositories**
+3. Add: `https://github.com/larrifax/ha-google-home`
+4. Find "Google Home API" and click **Install**
+
+### 6B. Configure Add-on
+
+In the add-on configuration tab:
+
+```yaml
+project_id: "your-project-id"
+client_id: "your-client-id.apps.googleusercontent.com"
+client_secret: "your-client-secret"
+refresh_token: "your-refresh-token"
+log_level: "info"
+scan_interval: 30
+```
+
+### 7B. Start Add-on
+
+1. Click **Start**
+2. Check logs for success messages
+
+### 8B. Verify Installation
 
 Check the add-on logs. You should see:
 ```
@@ -82,27 +148,38 @@ Check the add-on logs. You should see:
 [INFO] Found X device(s)
 ```
 
+---
+
 ## Common Issues
 
-### "Authentication failed"
+### "Authentication failed" or "Cannot connect"
 - ✅ Check your Client ID and Secret
 - ✅ Verify refresh token is valid
 - ✅ Ensure Home Graph API is enabled
+- ✅ Try regenerating the refresh token
 
 ### "No devices found"
 - ✅ Verify devices are set up in Google Home app
 - ✅ Check your Google account has access
 - ✅ Ensure correct Project ID
+- ✅ Wait a few minutes for initial sync
 
-### "Add-on won't start"
-- ✅ Review configuration syntax
+### "Integration/Add-on won't start"
+- ✅ Review configuration syntax (Add-on)
 - ✅ Check all required fields are filled
 - ✅ View logs for specific error messages
+- ✅ Verify Home Graph API is enabled
+
+### "Already configured" error (HACS)
+- ✅ Check Settings → Devices & Services
+- ✅ Remove existing configuration if needed
+- ✅ Try a different Project ID
 
 ## Next Steps
 
 - Read the [full documentation](google_home/DOCS.md)
-- Adjust scan interval for your needs
+- Configure scan interval in options (HACS) or config (Add-on)
+- Set up automations with your devices
 - Enable debug logging if troubleshooting
 
 ## Need Help?
