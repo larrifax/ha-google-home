@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 import logging
+from datetime import timedelta
 from typing import Any
 
 from homeassistant.components.sensor import SensorEntity
@@ -80,7 +80,9 @@ class GoogleHomeDataUpdateCoordinator(DataUpdateCoordinator[list[Device]]):
             raise UpdateFailed(f"Error communicating with API: {err}") from err
 
 
-class GoogleHomeDeviceSensor(CoordinatorEntity[GoogleHomeDataUpdateCoordinator], SensorEntity):
+class GoogleHomeDeviceSensor(
+    CoordinatorEntity[GoogleHomeDataUpdateCoordinator], SensorEntity
+):
     """Representation of a Google Home device sensor."""
 
     def __init__(

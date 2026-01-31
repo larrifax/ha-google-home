@@ -6,7 +6,6 @@ import logging
 from typing import Any
 
 import voluptuous as vol
-
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
@@ -49,13 +48,13 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     try:
         # Initialize and test connection
         await api.initialize()
-        
+
         # Try to discover devices to verify credentials
         devices = await api.discover_devices()
-        
+
         # Close the API client
         await api.close()
-        
+
         # Return info that you want to store in the config entry
         return {
             "title": f"Google Home API ({data[CONF_PROJECT_ID]})",
