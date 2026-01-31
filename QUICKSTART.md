@@ -1,12 +1,13 @@
 # Quick Start Guide
 
-Get up and running with the Google Home API add-on in 5 minutes!
+Get up and running with the Google Home API integration in 5 minutes!
 
 ## Prerequisites
 
 - Home Assistant installed and running
 - Google Cloud Platform account
 - Google Home devices set up
+- HACS installed (optional but recommended)
 
 ## Quick Setup (5 Steps)
 
@@ -54,32 +55,46 @@ credentials = flow.run_local_server(port=8080)
 print(f"Refresh token: {credentials.refresh_token}")
 ```
 
-### 5. Configure Add-on
+### 5. Install and Configure Integration
 
 In Home Assistant:
 
-1. Add this repository: `https://github.com/larrifax/ha-google-home`
-2. Install "Google Home API" add-on
-3. Configure with your credentials:
-   ```yaml
-   project_id: "your-project-id"
-   client_id: "your-client-id.apps.googleusercontent.com"
-   client_secret: "your-client-secret"
-   refresh_token: "your-refresh-token"
-   log_level: "info"
-   scan_interval: 30
-   ```
-4. Start the add-on
+#### Via HACS (Recommended):
+1. Open HACS
+2. Go to "Integrations"
+3. Click menu (⋮) → "Custom repositories"
+4. Add: `https://github.com/larrifax/ha-google-home`
+5. Category: "Integration"
+6. Search for "Google Home API" and install
+7. Restart Home Assistant
+
+#### Manual Installation:
+1. Download the latest release
+2. Copy `custom_components/google_home/` to your HA config directory
+3. Restart Home Assistant
+
+#### Configure:
+1. Go to Settings → Devices & Services
+2. Click "+ Add Integration"
+3. Search for "Google Home API"
+4. Enter your credentials:
+   - Project ID
+   - Client ID
+   - Client Secret
+   - Refresh Token
+5. Click "Submit"
 
 ## Verify Installation
 
-Check the add-on logs. You should see:
+Check the integration status:
+1. Go to Settings → Devices & Services
+2. Find "Google Home API" in the list
+3. You should see your devices listed
+
+You can also check Home Assistant logs for:
 ```
-[INFO] Starting Google Home API add-on...
-[INFO] Configuration validated successfully
-[INFO] Google Home API client initialized successfully
-[INFO] Home Assistant integration initialized successfully
-[INFO] Found X device(s)
+[INFO] google_home: Google Home API integration setup complete
+[INFO] google_home: Discovered X device(s)
 ```
 
 ## Common Issues
@@ -93,17 +108,20 @@ Check the add-on logs. You should see:
 - ✅ Verify devices are set up in Google Home app
 - ✅ Check your Google account has access
 - ✅ Ensure correct Project ID
+- ✅ Try reloading the integration
 
-### "Add-on won't start"
-- ✅ Review configuration syntax
+### "Integration won't load"
+- ✅ Review Home Assistant logs
 - ✅ Check all required fields are filled
-- ✅ View logs for specific error messages
+- ✅ Verify credentials are correct
+- ✅ Restart Home Assistant
 
 ## Next Steps
 
 - Read the [full documentation](google_home/DOCS.md)
-- Adjust scan interval for your needs
-- Enable debug logging if troubleshooting
+- Configure additional settings if needed
+- Add automations using your devices
+- Check for updates via HACS
 
 ## Need Help?
 
